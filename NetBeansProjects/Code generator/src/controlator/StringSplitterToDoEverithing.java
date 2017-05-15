@@ -12,8 +12,8 @@ public class StringSplitterToDoEverithing {
         String[] instructionsOnStringSplitted = instructionsOnString.split("\n");
         for (int i = 0; i < instructionsOnStringSplitted.length; i++) {
             String[] individualInstructionSplitted = instructionsOnStringSplitted[i].split(" ");
-            if(individualInstructionSplitted.length != 2){
-                return (i+1);
+            if (individualInstructionSplitted.length != 2) {
+                return (i + 1);
             }
             instructions.put(individualInstructionSplitted[0], individualInstructionSplitted[1]);
         }
@@ -39,12 +39,16 @@ public class StringSplitterToDoEverithing {
 
     }
 
-    public String[] toMachineCode(String instructions, String constantSet, int instLenght, int memoryRange) {
-        if (!constatsLineCorrectAnalizer(constantSet)) {
-            String[] arr = {"Error en las constantes.", "Error en las constantes."};
-            return arr;
+    public String[] toMachineCode(String instructions, String constantSet, int computerVersion, int memoryRange) {
+        if (constantSet.length() != 0) {
+            if (!constatsLineCorrectAnalizer(constantSet)) {
+                String[] arr = {"Error en las constantes.", "Error en las constantes."};
+                return arr;
+            }
+            setConstantSetByString(constantSet);
+        }else{
+            p.setConstantSet(new HashMap<String, String>());
         }
-        setConstantSetByString(constantSet);
         String[] instructionsOnLine = instructions.split("\n");
         String[][] instruccionesEnTres = new String[instructionsOnLine.length][3];
         for (int i = 0; i < instructionsOnLine.length; i++) {
@@ -71,69 +75,44 @@ public class StringSplitterToDoEverithing {
                 instruccionesEnTres[i] = instructionActual;
             }
         }
-        if (instLenght == 1) {
-            String[] code = p.assembler1byteInstruction(instruccionesEnTres);
-            StringBuilder machineCodeA = new StringBuilder();
-            StringBuilder machineCodeB = new StringBuilder();
-            for (int i = 0; i < code.length; i++) {
-                machineCodeA.append(code[i]);
-                machineCodeA.append(" ");
-                if ((i + 1) % 11 == 0) {
-                    machineCodeA.append("\n");
-                }
-
-                machineCodeB.append("X\"");
-                machineCodeB.append(code[i]);
-                machineCodeB.append("\", ");
-                if ((i + 1) % 8 == 0) {
-                    machineCodeB.append("\n");
-                }
-            }
-            for (int i = code.length; i < memoryRange; i++) {
-                machineCodeB.append("X\"");
-                machineCodeB.append("00");
-                machineCodeB.append("\", ");
-                if ((i + 1) % 8 == 0) {
-                    machineCodeB.append("\n");
-                }
-            }
-            if (memoryRange < code.length) {
-                machineCodeB = new StringBuilder("Las instrucciones no caben en la memoria.");
-            }
-            String[] arr = {machineCodeA.toString(), machineCodeB.toString()};
-            return arr;
+        String[] code;
+        if (computerVersion == 1) {
+            code = p.assemblerToGPCv1(instruccionesEnTres);
+        } else if (computerVersion == 2) {
+            code = p.assemblerToGPCv2(instruccionesEnTres);
         } else {
-            String[] code = p.assembler2byteInstructions(instruccionesEnTres);
-            StringBuilder machineCodeA = new StringBuilder();
-            StringBuilder machineCodeB = new StringBuilder();
-            for (int i = 0; i < code.length; i++) {
-                machineCodeA.append(code[i]);
-                machineCodeA.append(" ");
-                if ((i + 1) % 11 == 0) {
-                    machineCodeA.append("\n");
-                }
-
-                machineCodeB.append("X\"");
-                machineCodeB.append(code[i]);
-                machineCodeB.append("\", ");
-                if ((i + 1) % 8 == 0) {
-                    machineCodeB.append("\n");
-                }
-            }
-            for (int i = code.length; i < memoryRange; i++) {
-                machineCodeB.append("X\"");
-                machineCodeB.append("00");
-                machineCodeB.append("\", ");
-                if ((i + 1) % 8 == 0) {
-                    machineCodeB.append("\n");
-                }
-            }
-            if (memoryRange < code.length) {
-                machineCodeB = new StringBuilder("Las instrucciones no caben en la memoria.");
-            }
-            String[] arr = {machineCodeA.toString(), machineCodeB.toString()};
+            String[] arr = {"Not supported yet", "Not supported yet"};
             return arr;
         }
+        StringBuilder machineCodeA = new StringBuilder();
+        StringBuilder machineCodeB = new StringBuilder();
+        for (int i = 0; i < code.length; i++) {
+            machineCodeA.append(code[i]);
+            machineCodeA.append(" ");
+            if ((i + 1) % 11 == 0) {
+                machineCodeA.append("\n");
+            }
+
+            machineCodeB.append("X\"");
+            machineCodeB.append(code[i]);
+            machineCodeB.append("\", ");
+            if ((i + 1) % 8 == 0) {
+                machineCodeB.append("\n");
+            }
+        }
+        for (int i = code.length; i < memoryRange; i++) {
+            machineCodeB.append("X\"");
+            machineCodeB.append("00");
+            machineCodeB.append("\", ");
+            if ((i + 1) % 8 == 0) {
+                machineCodeB.append("\n");
+            }
+        }
+        if (memoryRange < code.length) {
+            machineCodeB = new StringBuilder("Las instrucciones no caben en la memoria.");
+        }
+        String[] arr = {machineCodeA.toString(), machineCodeB.toString()};
+        return arr;
     }
 
     public boolean instructionLineCorrectAnalizer(String line, Parser p) {
@@ -177,7 +156,7 @@ public class StringSplitterToDoEverithing {
         }
         return true;
     }
-    
+
     public boolean instructionSetLineCorrectAnalizer(String instructionsOnString) {
         String[] instructionssSplitted = instructionsOnString.split("\n");
         for (int i = 0; i < instructionssSplitted.length; i++) {
@@ -192,7 +171,7 @@ public class StringSplitterToDoEverithing {
         return true;
     }
 
-    public String getInstructionsOnString(){
+    public String getInstructionsOnString() {
         return p.getInstructionSetActualOnString();
     }
 }

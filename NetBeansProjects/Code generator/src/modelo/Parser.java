@@ -96,7 +96,7 @@ public class Parser {
         return arr;
     }
 
-    public String[] assembler1byteInstruction(String[][] instructions) {
+    public String[] assemblerToGPCv1(String[][] instructions) {
         //Esta función retornará un arreglo de Strings con los valores que ha de tener
         //la memoria para poder realizar dado conjunto de instrucciones
         
@@ -173,7 +173,7 @@ public class Parser {
         return assembled;
     }
 
-    public String[] assembler2byteInstructions(String[][] instructions) {
+    public String[] assemblerToGPCv2(String[][] instructions) {
         //Esta función retornará un arreglo de Strings con los valores que ha de tener
         //la memoria para poder realizar dado conjunto de instrucciones
         

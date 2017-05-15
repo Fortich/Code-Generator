@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +19,9 @@ public class InstructionSetChanger extends javax.swing.JFrame {
      */
     public InstructionSetChanger() {
         initComponents();
+        try{
+        setIconImage(new ImageIcon(getClass().getResource("/GUI/icon.png")).getImage());
+        }catch(Exception e){System.out.println("notfound");}
     }
 
     /**
@@ -29,25 +33,23 @@ public class InstructionSetChanger extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        changeButtom = new javax.swing.JButton();
+        defaultButtomv3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         instructionTextArea = new javax.swing.JTextArea();
-        changeButtom = new javax.swing.JButton();
-        closeButtom = new javax.swing.JButton();
+        defaultButtomv1 = new javax.swing.JButton();
 
-        setMinimumSize(new java.awt.Dimension(260, 500));
-        setPreferredSize(new java.awt.Dimension(270, 500));
+        setTitle("Edit Instructions");
+        setMinimumSize(new java.awt.Dimension(260, 460));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jLabel1.setText("Instruction set");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        instructionTextArea.setColumns(19);
-        instructionTextArea.setRows(5);
-        jScrollPane1.setViewportView(instructionTextArea);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 240, 420));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         changeButtom.setText("Change");
         changeButtom.addActionListener(new java.awt.event.ActionListener() {
@@ -55,22 +57,34 @@ public class InstructionSetChanger extends javax.swing.JFrame {
                 changeButtomActionPerformed(evt);
             }
         });
-        getContentPane().add(changeButtom, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, -1, -1));
+        jPanel1.add(changeButtom, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 410, 80, 40));
 
-        closeButtom.setText("Close");
-        closeButtom.addActionListener(new java.awt.event.ActionListener() {
+        defaultButtomv3.setText("Default GPCv3");
+        defaultButtomv3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeButtomActionPerformed(evt);
+                defaultButtomv3ActionPerformed(evt);
             }
         });
-        getContentPane().add(closeButtom, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 460, -1, -1));
+        jPanel1.add(defaultButtomv3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, 130, -1));
+
+        instructionTextArea.setColumns(19);
+        instructionTextArea.setRows(5);
+        jScrollPane1.setViewportView(instructionTextArea);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 230, 360));
+
+        defaultButtomv1.setText("Default GPCv1");
+        defaultButtomv1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                defaultButtomv1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(defaultButtomv1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 130, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 470));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closeButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtomActionPerformed
-        this.setVisible(false);
-    }//GEN-LAST:event_closeButtomActionPerformed
 
     private void changeButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeButtomActionPerformed
         int line = MainFrame.splitter.setInstructionSetByString(instructionTextArea.getText());
@@ -81,6 +95,20 @@ public class InstructionSetChanger extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }//GEN-LAST:event_changeButtomActionPerformed
+
+    private void defaultButtomv3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtomv3ActionPerformed
+        // TODO add your handling code here:
+       
+        String defaultisv3 = "loadA# 00\nloadA 01\nloadA@ 02\nstoreA# 20\nstoreA 21\nstoreA@ 22"
+                + "\naddA 40\nsubA 60\ninA 80\noutA A0\nJZ C0\nJPOS E0";
+        setTextInstructionTextArea(defaultisv3);
+    }//GEN-LAST:event_defaultButtomv3ActionPerformed
+
+    private void defaultButtomv1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtomv1ActionPerformed
+        // TODO add your handling code here:
+        String defaultis = "loadA 00\nstoreA 20\naddA 40\nsubA 60\ninA 80\noutA A0\nJZ C0\nJPOS E0";
+        setTextInstructionTextArea(defaultis);
+    }//GEN-LAST:event_defaultButtomv1ActionPerformed
     
     public void setTextInstructionTextArea (String s){
         instructionTextArea.setText(s);
@@ -88,9 +116,11 @@ public class InstructionSetChanger extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton changeButtom;
-    private javax.swing.JButton closeButtom;
+    private javax.swing.JButton defaultButtomv1;
+    private javax.swing.JButton defaultButtomv3;
     private javax.swing.JTextArea instructionTextArea;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
